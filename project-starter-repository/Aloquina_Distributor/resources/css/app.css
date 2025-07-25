@@ -1,0 +1,31 @@
+/* reference: https://tailwindcss.com/docs/styling-with-utility-classes */
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+html,
+body {
+    @apply h-full;
+}
+
+input,
+button {
+    @apply border rounded-sm py-1 px-2 text-sm focus:outline focus:outline-blue-400;
+}
+
+.form-group {
+    @apply flex flex-col gap-1;
+}
+
+.form-group label {
+    @apply text-sm;
+}
+
