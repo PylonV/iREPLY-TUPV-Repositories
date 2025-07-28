@@ -16,7 +16,7 @@ class ResumeController extends Controller
      */
     public function upload(Request $request)
     {
-         $request->validate([
+        $request->validate([
         'resume' => 'required|file|mimes:pdf,doc,docx',
         'name' => 'required|string|max:255',
         'email' => 'required|email',
@@ -41,7 +41,7 @@ class ResumeController extends Controller
     }
 
     return redirect()->back()->with('success', 'Resume is being sent!');
-   
+
     }
 
     /**
@@ -58,7 +58,7 @@ class ResumeController extends Controller
         // Log download
         ResumeDownload::create([
             'file_path' => $filePath,
-            'user_email' => auth()->check() ? auth()->user()->email : null,
+            'user_email' => auth()-> guard('web')-> check() ? auth()->guard('web')->user()->email : null,
         ]);
 
         return Storage::download($filePath);

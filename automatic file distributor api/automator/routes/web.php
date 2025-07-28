@@ -8,8 +8,5 @@ Route::get('/upload', function () {
 });
 
 Route::post('/upload', [ResumeController::class, 'upload'])->name('resumes.upload');
-Route::get('/resumes', function () {
-    return view('resumes.index');
-})->name('resumes.index');
 
 Route::get('/resumes/download/{filename}', [ResumeController::class, 'download'])->name('resumes.download');
