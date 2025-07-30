@@ -10,6 +10,10 @@ Route::get('/', function () {
 Route::get('/upload', function () {
     return view('resumes.upload');
 });
+Route::get('/home', function () {
+    return view('home');
+})->name('home');
+
 
 Route::post('/upload', [ResumeController::class, 'upload'])->name('resumes.upload');
 
