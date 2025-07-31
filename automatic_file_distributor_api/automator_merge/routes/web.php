@@ -5,24 +5,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
-});
+})->middleware('guest')->name('home');
 
 Route::get('/upload', function () {
     return view('resumes.upload');
 });
 
-Route::get('/test', function () {
-    return view('test');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/upload', function () {
+        return view('resumes.upload'); // or 'upload' if you have a separate view
+    })->name('upload');
 });
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
 require __DIR__.'/auth.php';
