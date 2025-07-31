@@ -1,20 +1,20 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ResumeController;
 
 Route::get('/', function () {
-    return view('home');
+    return view('welcome');
 });
 
-Route::get('/upload', function () {
-    return view('resumes.upload');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-Route::get('/home', function () {
-    return view('home');
-})->name('home');
 
-
-Route::post('/upload', [ResumeController::class, 'upload'])->name('resumes.upload');
-
-Route::get('/resumes/download/{filename}', [ResumeController::class, 'download'])->name('resumes.download');
+require __DIR__.'/auth.php';
