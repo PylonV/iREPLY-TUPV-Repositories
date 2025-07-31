@@ -42,6 +42,12 @@ return [
             'synchronous' => null,
         ],
 
+        'sqlite_resume' => [
+                'driver' => 'sqlite',
+            'database' => env('DB_SQLITE_DATABASE', database_path('database.sqlite')),
+            'prefix' => '',
+        ],
+
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DB_URL'),

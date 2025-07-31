@@ -26,3 +26,28 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+use App\Models\Resume;         // SQLite model
+use App\Models\MySQLResume;    // MySQL model
+
+Route::get('/migrate-resumes', function () {
+    $resumes = Resume::all();
+
+    foreach ($resumes as $res) {
+        MySQLResume::create([
+            'name'   => $res->name,
+            'email'  => $res->email,
+            'number' => $res->phone,
+            'resume' => $res->file_path,
+        ]);
+    }
+
+    return "Migration complete.";
+});
+
+
+Route::get('/view-resumes', function () {
+    $data = Resume::all();
+    return view('resumes', ['data' => $data]);
+});
+
