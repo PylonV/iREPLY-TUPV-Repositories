@@ -21,6 +21,21 @@
             box-shadow: 0 8px 24px rgba(0,0,0,0.1);
             width: 100%;
             max-width: 500px;
+            position: relative;
+        }
+
+        .home-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .home-button:hover {
+            text-decoration: underline;
         }
 
         h1 {
@@ -48,6 +63,19 @@
         .checkbox-group {
             margin: 10px 0;
         }
+        .list-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #28a745;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.list-button:hover {
+    text-decoration: underline;
+}
 
         .checkbox-group label {
             font-weight: normal;
@@ -77,6 +105,11 @@
 </head>
 <body>
     <div class="container">
+        <a href="/" class="home-button">← Home</a>
+        <a href="{{ route('resumes.list') }}" class="list-button">📄 View Uploaded Resumes</a>
+
+
+
         <h1>Upload Resume</h1>
 
         @if (session('success'))
@@ -89,13 +122,13 @@
             <label for="resume">Resume File</label>
             <input type="file" name="resume" required>
 
-            <label for="name">Your Name</label>
+            <label for="name">Name</label>
             <input type="text" name="name" required>
 
-            <label for="email">Your Email</label>
+            <label for="email">Email</label>
             <input type="email" name="email" required>
 
-            <label for="phone">Your Phone Number</label>
+            <label for="phone">Phone Number</label>
             <input type="text" name="phone" required>
 
             <div class="checkbox-group">
@@ -104,10 +137,10 @@
             </div>
 
             <button type="submit">Upload Resume</button>
-            @if (session('resumePath'))
-    <a href="{{ route('resumes.download', basename(session('resumePath'))) }}">Download Resume</a>
-@endif
 
+            @if (session('resumePath'))
+                <a href="{{ route('resumes.download', basename(session('resumePath'))) }}">Download Resume</a>
+            @endif
         </form>
     </div>
 </body>

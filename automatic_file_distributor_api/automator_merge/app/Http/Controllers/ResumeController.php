@@ -12,36 +12,43 @@ use App\Models\Resume;
 class ResumeController extends Controller
 {
     /**
+     * Show the resume upload form.
+     */
+    public function showForm()
+    {
+        return view('resumes.upload'); // make sure this Blade file exists: resources/views/resumes/upload.blade.php
+    }
+
+    /**
      * Handle resume upload and dispatch upload jobs.
      */
     public function upload(Request $request)
     {
         $request->validate([
-        'resume' => 'required|file|mimes:pdf,doc,docx',
-        'name' => 'required|string|max:255',
-        'email' => 'required|email',
-        'phone' => 'required|string|max:20',
-        'destinations' => 'required|array',
-    ]);
+            'resume' => 'required|file|mimes:pdf,doc,docx',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'phone' => 'required|string|max:20',
+            'destinations' => 'required|array',
+        ]);
 
-    $path = $request->file('resume')->store('resumes');
+        $path = $request->file('resume')->store('resumes');
 
-    // Save data to database
-    $resume = new Resume();
-    $resume->name = $request->name;
-    $resume->email = $request->email;
-    $resume->phone = $request->phone;
-    $resume->file_path = $path;
-    $resume->destinations = json_encode($request->destinations);
-    $resume->save();
+        // Save data to database
+        $resume = new Resume();
+        $resume->name = $request->name;
+        $resume->email = $request->email;
+        $resume->phone = $request->phone;
+        $resume->file_path = $path;
+        $resume->destinations = json_encode($request->destinations);
+        $resume->save();
 
-    // Dispatch background jobs
-    foreach ($request->destinations as $destination) {
-        UploadResumeJob::dispatch($path, $destination);
-    }
+        // Dispatch background jobs
+        foreach ($request->destinations as $destination) {
+            UploadResumeJob::dispatch($path, $destination);
+        }
 
-    return redirect()->back()->with('success', 'Resume is being sent!');
-
+        return redirect()->back()->with('success', 'Resume is being sent!');
     }
 
     /**
@@ -58,9 +65,18 @@ class ResumeController extends Controller
         // Log download
         ResumeDownload::create([
             'file_path' => $filePath,
-            'user_email' => auth()-> guard('web')-> check() ? auth()->guard('web')->user()->email : null,
+            'user_email' => auth()->guard('web')->check() ? auth()->guard('web')->user()->email : null,
         ]);
 
         return Storage::download($filePath);
+    }
+
+    /**
+     * Show all uploaded resumes.
+     */
+    public function showAll()
+    {
+        $resumes = Resume::all();
+        return view('resumes.list', compact('resumes'));
     }
 }
