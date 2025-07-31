@@ -1,0 +1,320 @@
+/* resources/css/app.css */
+
+/* Import Montserrat font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'); /* Added Inter font for general use */
+
+
+/* Style for the home-container div (the dark blue header bar) */
+.home-container {
+    background-color: #21283f; /* Dark blue/grey background */
+    color: #ffffff; /* White text color (for IREPLY) */
+
+    /* Flexbox for overall layout of items inside the header */
+    display: flex;
+    align-items: center;        /* Vertically centers both IREPLY and buttons */
+    justify-content: space-between; /* Pushes IREPLY to the left, buttons to the right */
+
+    /* Height and Padding */
+    min-height: 10vh;           /* Height of the dark blue header */
+    padding: 1rem 50px;       /* Top/bottom padding 1rem, left/right padding 50px */
+}
+
+/* Style for the "IREPLY" text itself (now a direct child of .home-container) */
+.home-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900; /* Very bold weight */
+    font-size: 40px; /* Desired font size for IREPLY */
+    /* No need for text-align: left; here because justify-content: space-between handles it */
+
+}
+
+.ireply-logo {
+    width: 200px;   /* Resize as needed */
+    height: auto;   /* Keep aspect ratio */
+    margin-top: 10px;
+}
+
+
+/* Styles for the Login/Register buttons container */
+.auth-buttons {
+    display: flex; /* Make this a flex container to space its own buttons */
+    gap: 15px;     /* Space between Login and Register buttons */
+    align-items: center; /* Ensures buttons are vertically aligned within their container */
+}
+
+/* Styles for individual buttons */
+.button {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700; /* Slightly less bold than IREPLY */
+    font-size: 14px; /* Smaller font size for buttons */
+    text-decoration: none; /* Remove underline */
+    color: #ffffff; /* White text */
+    
+    background-color: transparent; /* No background */
+    border: 2px solid #ffffff; /* White border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px; /* Internal padding */
+    cursor: pointer; /* Pointer on hover */
+    transition: all 0.3s ease; /* Smooth hover effect */
+}
+
+.button:hover {
+    background-color: #ffffff; /* White background on hover */
+    color: #21283f; /* Dark text on hover */
+}
+
+.header-image {
+    width: 100%; /* Makes the image take 100% of its parent's width */
+    height: auto; /* Maintains the aspect ratio of the image */
+    display: block; /* Removes any extra space below the image, common for img tags */
+}
+
+/* Basic body/html resets for consistent display */
+html, body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif; /* Apply Inter font to body */
+    background-color: #ffffff; /* Changed from light gray to white */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure body takes full viewport height */
+}
+
+
+/* Modal specific styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure modal is on top */
+    opacity: 0; /* Start hidden */
+    visibility: hidden; /* Start hidden */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+.modal-content {
+    background-color: #ffffff; /* White background for modal */
+    padding: 2.5rem;
+    border-radius: 1rem; /* Rounded corners for modal */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Stronger shadow */
+    width: 90%; /* Responsive width */
+    max-width: 450px; /* Max width for desktop */
+    position: relative;
+    transform: translateY(-20px); /* Start slightly above center */
+    transition: transform 0.3s ease;
+}
+.modal-overlay.active .modal-content {
+    transform: translateY(0); /* Slide into place */
+}
+.modal-close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #21283f; /* Changed to theme dark blue/grey */
+    transition: color 0.2s ease;
+}
+.modal-close-button:hover {
+    color: #000000; /* Darker on hover for contrast */
+}
+.modal-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #21283f; /* Changed to theme dark blue/grey */
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+.form-group {
+    margin-bottom: 1.25rem;
+}
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #21283f; /* Changed to theme dark blue/grey */
+}
+.form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e0e0e0; /* Changed to a very light gray for neutral border */
+    border-radius: 0.5rem; /* Slightly rounded input fields */
+    font-size: 1rem;
+    box-sizing: border-box; /* Include padding in width */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.form-input:focus {
+    outline: none;
+    border-color: #21283f; /* Changed to theme dark blue/grey */
+    box-shadow: 0 0 0 3px rgba(33, 40, 63, 0.2); /* Changed shadow color to theme dark blue/grey */
+}
+.form-submit-button {
+    width: 100%;
+    background-color: #21283f; /* Changed from green to theme dark blue/grey */
+    color: #ffffff; /* White text */
+    padding: 0.9rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.form-submit-button:hover {
+    background-color: #ffffff; /* Changed to white on hover */
+    color: #21283f; /* Changed to theme dark blue/grey on hover */
+    transform: translateY(-2px);
+}
+.form-submit-button:active {
+    transform: translateY(0);
+}
+
+/* Dashboard specific styles */
+.dashboard-header {
+    background-color: #21283f; /* Dark blue/grey background */
+    color: #ffffff; /* White text */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 10vh;
+    padding: 1rem 50px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 40px;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/* Reusing .button style for dashboard header buttons */
+
+.dashboard-content {
+    flex-grow: 1; /* Allows content to take up available space */
+    padding: 2rem 50px;
+    background-color: #ffffff; /* White background */
+    color: #21283f; /* Dark text */
+}
+
+.welcome-message {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background-color: #e0e0e0; /* Light grey background for welcome message */
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    height: 150px;
+}
+
+.welcome-message h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.5rem;
+    color: #21283f;
+    margin-bottom: 1rem;
+}
+
+.welcome-message p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.dashboard-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.dashboard-card {
+    background-color: #21283f; /* Dark blue/grey background for cards */
+    color: #ffffff; /* White text for cards */
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+}
+
+.dashboard-card h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #ffffff; /* White underline */
+    padding-bottom: 0.5rem;
+}
+
+.dashboard-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dashboard-card ul li {
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+}
+
+.card-link {
+    color: #ffffff; /* White link color */
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.card-link:hover {
+    color: #e0e0e0; /* Slightly lighter white on hover */
+}
+
+.view-all-button {
+    background-color: #ffffff; /* White background */
+    color: #21283f; /* Dark blue/grey text */
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-top: 1rem;
+}
+
+.view-all-button:hover {
+    background-color: #e0e0e0; /* Light grey on hover */
+}
+
+.dashboard-footer {
+    text-align: center;
+    padding: 1.5rem 50px;
+    background-color: #21283f; /* Dark blue/grey background */
+    color: #ffffff; /* White text */
+    font-size: 0.9rem;
+    margin-top: auto; /* Pushes footer to the bottom */
+    border-radius: 10px; /* Rounded corners for footer */
+}
+
+.dashboard-content {
+    width: 600px;
+    margin: auto;
+    display: block;
+}
+
+
