@@ -51,3 +51,10 @@ Route::get('/view-resumes', function () {
     return view('resumes', ['data' => $data]);
 });
 
+use App\Models\ZohoResume;
+
+Route::get('/view-zoho-resumes', function () {
+    $data = ZohoResume::all();
+    return view('zoho', ['data' => $data]);
+});
+

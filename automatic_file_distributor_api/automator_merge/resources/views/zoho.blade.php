@@ -2,20 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Resume List</title>
+    <title>Zoho Resume Viewer</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            background-color: #f4f7fa;
+            background-color: #f3f6fb;
         }
 
         header {
-            background-color: #f9f6f0;
+            background-color: #e5f0fa;
             padding: 1rem 2rem;
             display: flex;
             align-items: center;
-            border-bottom: 2px solid #ddd;
+            border-bottom: 2px solid #ccc;
         }
 
         header img {
@@ -25,12 +25,12 @@
 
         header h1 {
             font-size: 1.5rem;
-            color: #333;
+            color: #2a2f4a;
         }
 
         h2 {
             margin: 2rem;
-            color: #2c3e50;
+            color: #1f2d3d;
         }
 
         table {
@@ -38,26 +38,26 @@
             margin: auto;
             border-collapse: collapse;
             background-color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         th, td {
             padding: 1rem;
-            text-align: left;
             border-bottom: 1px solid #e0e0e0;
+            text-align: left;
         }
 
         th {
-            background-color: #e6f0ff;
-            color: #2c3e50;
+            background-color: #d4e9fa;
+            color: #1a2d4a;
         }
 
         tr:hover {
-            background-color: #f0f8ff;
+            background-color: #f0faff;
         }
 
         a {
-            color: #0077cc;
+            color: #0056b3;
             text-decoration: none;
         }
 
@@ -69,8 +69,8 @@
 <body>
 
 <header>
-    <img src="https://seeklogo.com/images/A/airtable-logo-216B9AF035-seeklogo.com.png" alt="Airtable Logo">
-    <h1>Airtable Resume Viewer</h1>
+    <img src="https://seeklogo.com/images/Z/zoho-logo-4A909A1B3D-seeklogo.com.png" alt="Zoho Logo">
+    <h1>Zoho Resume Viewer</h1>
 </header>
 
 <h2>Uploaded Resumes</h2>
