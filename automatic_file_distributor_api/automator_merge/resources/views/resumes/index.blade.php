@@ -37,7 +37,7 @@
                             <td class="border px-4 py-2">{{ $resume->email }}</td>
                             <td class="border px-4 py-2">{{ $resume->phone }}</td>
                             <td class="border px-4 py-2">
-                                @foreach(json_decode($resume->platforms ?? '[]') as $platform)
+                                @foreach(array_filter(array_map('trim', explode(',', $resume->platforms ?? ''))) as $platform)
                                     <span class="inline-block bg-blue-200 text-blue-800 text-sm px-2 py-1 rounded mr-1">
                                         {{ $platform }}
                                     </span>
