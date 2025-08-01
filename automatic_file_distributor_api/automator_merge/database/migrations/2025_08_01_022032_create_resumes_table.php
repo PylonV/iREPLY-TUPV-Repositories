@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('resumes', function (Blueprint $table) {
         $table->id();
+        $table->string('file_path')->nullable();
         $table->string('name');
         $table->string('email');
         $table->string('phone');
-        $table->string('file_path');
-        $table->text('destinations'); // store JSON
+        $table->text('platforms')->nullable();
         $table->timestamps();
     });
+
     }
 
     /**

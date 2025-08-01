@@ -7,6 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Resume extends Model
 {
     protected $fillable = [
-        'name', 'email', 'phone', 'file_path', 'destinations'
+        'file_path',
+        'name',
+        'email',
+        'phone',
+        'platforms',
+    ];
+
+    protected $casts = [
+        'platforms' => 'array',
     ];
 }
+

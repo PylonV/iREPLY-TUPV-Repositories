@@ -30,8 +30,8 @@
 
             {{-- Resume File --}}
             <div class="form-group">
-                <label for="file" class="form-label">Resume File</label>
-                <input type="file" id="file" name="file" class="form-input" required>
+                <label for="resume" class="form-label">Resume File</label>
+                <input type="file" id="resume" name="resume" class="form-input" required>
             </div>
 
             {{-- Name --}}

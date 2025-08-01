@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Resume; 
 use Illuminate\Http\Request;
+use App\Jobs\UploadResumeJob;
+use App\Models\ResumeDownload;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Response;
-use App\Models\ResumeDownload;
-use App\Jobs\UploadResumeJob;
-use App\Models\Resume; 
 
 class ResumeController extends Controller
 {
@@ -16,33 +17,37 @@ class ResumeController extends Controller
      */
     public function upload(Request $request)
     {
+        Log::info('Resume upload:', $request->all());
+
+        // Validate form inputs
         $request->validate([
-        'resume' => 'required|file|mimes:pdf,doc,docx',
-        'name' => 'required|string|max:255',
-        'email' => 'required|email',
-        'phone' => 'required|string|max:20',
-        'destinations' => 'required|array',
-    ]);
+            'resume' => 'required|file|mimes:pdf,doc,docx',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'phone' => 'required|string|max:20',
+            'platforms' => 'nullable|array', // Make this nullable, since it's optional
+        ]);
 
-    $path = $request->file('resume')->store('resumes');
+        // Store uploaded file
+        $path = $request->file('resume')->store('resumes');
 
-    // Save data to database
-    $resume = new Resume();
-    $resume->name = $request->name;
-    $resume->email = $request->email;
-    $resume->phone = $request->phone;
-    $resume->file_path = $path;
-    $resume->destinations = json_encode($request->destinations);
-    $resume->save();
+        // Save data to database
+        $resume = new Resume();
+        $resume->file_path = $path;
+        $resume->name = $request->name;
+        $resume->email = $request->email;
+        $resume->phone = $request->phone;
+        $resume->platforms = json_encode($request->platforms ?? []); // store as JSON
+        $resume->save();
 
-    // Dispatch background jobs
-    foreach ($request->destinations as $destination) {
-        UploadResumeJob::dispatch($path, $destination);
+        // Optional: Dispatch background jobs (if needed)
+        foreach ($request->platforms ?? [] as $platform) {
+            UploadResumeJob::dispatch($path, $platform);
+        }
+
+        return redirect()->back()->with('success', 'Resume is being sent!');
     }
 
-    return redirect()->back()->with('success', 'Resume is being sent!');
-
-    }
 
     /**
      * Handle resume download and log the download.

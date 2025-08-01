@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ResumeController;
 
@@ -16,5 +17,6 @@ Route::get('/home', function () {
 
 
 Route::post('/upload', [ResumeController::class, 'upload'])->name('resumes.upload');
+
 
 Route::get('/resumes/download/{filename}', [ResumeController::class, 'download'])->name('resumes.download');
