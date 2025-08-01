@@ -3,61 +3,58 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use App\Models\Resume;
 
 class ResumeApiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $resumes = \App\Models\Resume::all();
-        return response()->json($resumes);
+        return response()->json(Resume::all());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
-        'resume' => 'required|file|mimes:pdf,doc,docx|max:2048',
-        ]);
-        
-        $file = $request->file('resume');
-        $filename = time() . '_' . $file->getClientOriginalName();
-        $path = $file->storeAs('resumes', $filename);
-
-        $resume = \App\Models\Resume::create([
-            'original_name' => $file->getClientOriginalName(),
-            'path' => $path,
+            'resume' => 'required|file|mimes:pdf,doc,docx',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|string|max:20',
+            'platforms' => 'array',
+            'platforms.*' => 'string',
         ]);
 
-        return response()->json(['message' => 'Resume uploaded', 'data' => $resume], 201);
+        $path = $request->file('resume')->store('resumes');
+
+        $resume = Resume::create([
+            'file_path' => $path,
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'phone' => $request->input('phone'),
+            'platforms' => json_encode($request->input('platforms')),
+        ]);
+
+        return response()->json($resume, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
-        $resume = \App\Models\Resume::findOrFail($id);
+        $resume = Resume::find($id);
+
+        if (!$resume) {
+            return response()->json(['error' => 'Resume not found'], 404);
+        }
+
         return response()->json($resume);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        $resume = \App\Models\Resume::findOrFail($id);
+        $resume = Resume::find($id);
 
-        if (Storage::exists($resume->path)) {
-        Storage::delete($resume->path);
+        if (!$resume) {
+            return response()->json(['error' => 'Resume not found'], 404);
         }
-        
-        Storage::delete($resume->path);
+
         $resume->delete();
 
         return response()->json(['message' => 'Resume deleted']);

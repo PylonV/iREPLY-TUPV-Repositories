@@ -25,7 +25,7 @@
             <p>Please select a file and provide the required details.</p>
         </div>
 
-        <form action="/upload" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('resume.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             {{-- Resume File --}}
@@ -76,6 +76,3 @@
 
 </body>
 </html>
-
-
-
