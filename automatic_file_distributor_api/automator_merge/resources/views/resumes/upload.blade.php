@@ -24,6 +24,12 @@
             <h2>Upload Your File</h2>
             <p>Please select a file and provide the required details.</p>
         </div>
+{{-- Link to resume list --}}
+<div style="margin-bottom: 20px;">
+    <a href="{{ route('resumes.list') }}" class="button" style="background-color: #4CAF50; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">
+        📄 View Uploaded Resumes
+    </a>
+</div>
 
         <form action="/upload" method="POST" enctype="multipart/form-data">
             @csrf

@@ -68,4 +68,14 @@ class ResumeController extends Controller
 
         return Storage::download($filePath);
     }
+    public function showAll()
+{
+    $resumes = \App\Models\Resume::latest()->get();
+    return view('resume_list', compact('resumes'));
+}
+public function uploadForm()
+{
+    return view('resumes.upload');
+}
+
 }

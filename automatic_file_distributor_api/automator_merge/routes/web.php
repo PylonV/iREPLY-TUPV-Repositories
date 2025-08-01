@@ -18,5 +18,9 @@ Route::get('/home', function () {
 
 Route::post('/upload', [ResumeController::class, 'upload'])->name('resumes.upload');
 
-
+Route::get('/upload', function () {
+    return view('resumes.upload'); // Make sure your view name matches this
+});
 Route::get('/resumes/download/{filename}', [ResumeController::class, 'download'])->name('resumes.download');
+Route::get('/resumes', [ResumeController::class, 'showAll'])->name('resumes.list');
+Route::get('/resumes/upload/form', [ResumeController::class, 'uploadForm'])->name('resumes.upload.form');
