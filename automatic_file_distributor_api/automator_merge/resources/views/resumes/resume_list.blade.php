@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Uploaded Resumes</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume List</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -35,15 +34,6 @@
             border-radius: 5px;
         }
 
-        .success {
-            background-color: #d4edda;
-            border: 1px solid #c3e6cb;
-            color: #155724;
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-        }
-
         table {
             width: 100%;
             border-collapse: collapse;
@@ -64,16 +54,6 @@
             background-color: #f1f1f1;
         }
 
-        .platform-tag {
-            display: inline-block;
-            background-color: #cce5ff;
-            color: #004085;
-            padding: 3px 8px;
-            border-radius: 5px;
-            font-size: 0.875em;
-            margin-right: 4px;
-        }
-
         .empty {
             text-align: center;
             color: gray;
@@ -86,41 +66,41 @@
         <a href="{{ route('resumes.upload') }}" class="button">← Back to Upload</a>
         <h2>Uploaded Resumes</h2>
 
-        @if(session('success'))
-            <div class="success">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if($resumes->isEmpty())
-            <p class="empty">No resumes uploaded yet.</p>
-        @else
+        @if ($resumes->count())
             <table>
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone</th>
-                        <th>Platforms</th>
-                        <th>Uploaded</th>
+                        <th>Filename</th>
+                        <th>Destinations</th>
+                        <th>Download</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($resumes as $resume)
+                    @foreach ($resumes as $resume)
                         <tr>
                             <td>{{ $resume->name }}</td>
                             <td>{{ $resume->email }}</td>
                             <td>{{ $resume->phone }}</td>
+                            <td>{{ $resume->filename }}</td>
                             <td>
-                                @foreach(array_filter(array_map('trim', explode(',', $resume->platforms ?? ''))) as $platform)
-                                    <span class="platform-tag">{{ $platform }}</span>
-                                @endforeach
+                                @if (is_array($resume->destinations))
+                                    {{ implode(', ', $resume->destinations) }}
+                                @else
+                                    {{ $resume->destinations }}
+                                @endif
                             </td>
-                            <td>{{ $resume->created_at->format('Y-m-d H:i') }}</td>
+                            <td>
+                                <a href="{{ Storage::url($resume->path) }}" target="_blank">Download</a>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
+        @else
+            <p class="empty">No resumes have been uploaded yet.</p>
         @endif
     </div>
 </body>

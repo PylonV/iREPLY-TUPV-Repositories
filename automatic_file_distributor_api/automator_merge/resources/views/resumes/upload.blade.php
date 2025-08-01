@@ -25,7 +25,23 @@
             <p>Please select a file and provide the required details.</p>
         </div>
 
-        <form action="{{ route('resume.store') }}" method="POST" enctype="multipart/form-data">
+        <div style="margin-bottom: 24px;">
+            <a href="/resumes" style="
+                display: inline-block;
+                background-color: #38a169;
+                color: white;
+                font-weight: 600;
+                padding: 10px 20px;
+                border-radius: 6px;
+                text-decoration: none;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+                transition: background-color 0.2s ease;
+            " onmouseover="this.style.backgroundColor='#2f855a'" onmouseout="this.style.backgroundColor='#38a169'">
+                View Uploaded Resumes
+            </a>
+        </div>
+
+        <form action="/resumes" method="POST" enctype="multipart/form-data">
             @csrf
 
             {{-- Resume File --}}

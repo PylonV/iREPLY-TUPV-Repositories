@@ -30,25 +30,46 @@ class ResumeController extends Controller
      */
     public function store(Request $request)
     {
+        Log::info('Resume upload:', $request->all());
+
+        // Validate
         $validated = $request->validate([
-        'resume' => 'required|file|mimes:pdf,doc,docx',
-        'name' => 'required|string',
-        'email' => 'required|email',
-        'phone' => 'required|string',
-        'platforms' => 'nullable|array',
-    ]);
+            'resume'    => 'required|file|mimes:pdf,doc,docx|max:2048',
+            'name'      => 'required|string|max:255',
+            'email'     => 'required|email',
+            'phone'     => 'required|string|max:20',
+            'platforms' => 'nullable|array',
+            'platforms.*' => 'in:Airtable,Zoho', // optional: validate values
+        ]);
 
-    $path = $request->file('resume')->store('resumes', 'public');
+        // Store file
+        $file = $request->file('resume');
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $filePath = $file->storeAs('resumes', $filename);
 
-    \App\Models\Resume::create([
-        'name' => $validated['name'],
-        'email' => $validated['email'],
-        'phone' => $validated['phone'],
-        'file_path' => $path,
-        'platforms' => implode(',', $validated['platforms'] ?? []),
-    ]);
+        // Save to DB
+        $resume = Resume::create([
+            'file_path' => $filePath,
+            'name'      => $validated['name'],
+            'email'     => $validated['email'],
+            'phone'     => $validated['phone'],
+            'platforms' => isset($validated['platforms']) ? json_encode($validated['platforms']) : null,
+        ]);
 
-    return redirect('/resumes')->with('success', 'Resume uploaded!');
+        // Dispatch jobs for each selected platform
+        foreach ($validated['platforms'] ?? [] as $platform) {
+            UploadResumeJob::dispatch($filePath, $platform);
+        }
+
+        // Response
+        if ($request->wantsJson()) {
+            return response()->json([
+                'message' => 'Resume uploaded and queued for sending.',
+                'data' => $resume
+            ], 201);
+        }
+
+        return redirect()->back()->with('success', 'Resume is being sent!');
     }
 
     /**

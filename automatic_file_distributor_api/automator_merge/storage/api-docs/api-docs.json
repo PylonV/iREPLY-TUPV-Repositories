@@ -1,0 +1,234 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Resume API",
+        "description": "API for managing resume uploads",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/resumes": {
+            "get": {
+                "tags": [
+                    "Resumes"
+                ],
+                "summary": "Get list of resumes",
+                "operationId": "6b855a1344984308a5a1d2d93771d070",
+                "responses": {
+                    "200": {
+                        "description": "List of resumes",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "filename": {
+                                                "type": "string"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Resumes"
+                ],
+                "summary": "Upload a new resume",
+                "operationId": "a3420df7b43f3b01b859c66ae259a3c1",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "resume",
+                                    "name",
+                                    "email",
+                                    "phone",
+                                    "platforms"
+                                ],
+                                "properties": {
+                                    "resume": {
+                                        "description": "Resume file",
+                                        "type": "file"
+                                    },
+                                    "name": {
+                                        "description": "Full name of the applicant",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "Applicant's email address",
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "phone": {
+                                        "description": "Phone number",
+                                        "type": "string"
+                                    },
+                                    "platforms": {
+                                        "description": "Comma-separated platforms or job boards",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Resume uploaded successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "type": "string"
+                                                },
+                                                "phone": {
+                                                    "type": "string"
+                                                },
+                                                "platforms": {
+                                                    "type": "string"
+                                                },
+                                                "filename": {
+                                                    "type": "string"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/resumes/{id}": {
+            "get": {
+                "tags": [
+                    "Resumes"
+                ],
+                "summary": "Get a specific resume",
+                "operationId": "c4ce4fa07ffb11c2483a5e5c87f7e6ba",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Resume ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resume found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "filename": {
+                                            "type": "string"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resume not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Resumes"
+                ],
+                "summary": "Delete a specific resume",
+                "operationId": "0e5b5236d06df2cffc1842459e6f183e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Resume ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resume deleted"
+                    },
+                    "404": {
+                        "description": "Resume not found"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Resumes",
+            "description": "API Endpoints for Resumes"
+        }
+    ]
+}
